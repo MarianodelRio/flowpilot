@@ -1,54 +1,43 @@
-# My Idea
+# FlowPilot — Idea
 
-<!--
-Welcome to dev-team.
+## ¿Qué problema resuelve?
 
-You don't need to be technical to fill this in.
-Answer what you can — we'll figure out the rest together in /bootstrap.
-The more honest and specific you are, the better the result.
--->
+Los pequeños negocios (peluquerías, autobuses, gimnasios) pierden horas cada semana contestando WhatsApps, gestionando reservas a mano y copiando datos entre herramientas que no se hablan entre sí.
 
-## What problem does this solve?
+FlowPilot automatiza esas tareas repetitivas: atiende a los clientes por WhatsApp, gestiona reservas y avisa al dueño cuando hace falta.
 
-<!--
-Describe the frustration, gap, or opportunity.
-Example: "I spend hours every week manually copying data between two systems that don't talk to each other."
-Example: "There's no simple tool for X that doesn't require Y."
--->
+## ¿Quién lo usa?
 
+- **Dueños de pequeños negocios** (1–15 empleados) y **su clientela**, que escribe por WhatsApp.
+- **El desarrollador** (Mariano), como operador de la plataforma: da de alta negocios, configura packs y vigila que todo funcione.
 
+## ¿Cómo funciona a alto nivel?
 
-## Who uses it?
+1. El cliente escribe por WhatsApp (por ejemplo, "quiero cita el sábado por la mañana").
+2. FlowPilot entiende la petición, consulta su agenda o sus datos (Google Calendar, etc.), responde al cliente y deja registro de lo ocurrido.
+3. El dueño recibe avisos por Telegram (nueva cita, cancelación, algo que requiere su atención).
 
-<!--
-Who is the main user? How often? In what context?
-Example: "Me and my team of 3, daily, during morning standup."
-Example: "Small restaurant owners who aren't technical."
--->
+## ¿Hay algo técnico que ya quieres?
 
+- **Lenguaje y framework:** Python + Django.
+- **Base de datos:** PostgreSQL.
+- **Colas de trabajo:** en Postgres, con Procrastinate.
+- **Infraestructura:** AWS — ECS Fargate, RDS, región eu-south-2 (Milán), con CDK en Python.
+- **Aislamiento:** los datos de cada negocio están separados del resto (tenant) y la base de datos lo refuerza con RLS.
 
+## ¿Qué NO es parte de esto?
 
-## How does it work at a high level?
+- **No es un chatbot de IA de propósito general.** La IA solo interpreta peticiones dentro de los flujos de cada negocio.
+- **No es un software de reservas que compita con Booksy.** FlowPilot se conecta a la agenda que el negocio ya usa.
+- **No es un CRM.**
+- **No incluye facturación propia.**
+- **No es una app móvil.** Los dueños usan Telegram y los clientes usan WhatsApp.
+- **No ofrece disponibilidad 24/7.** Puede haber caídas de unos minutos de vez en cuando.
+- **No usa SMS como canal principal.**
 
-<!--
-Describe the core flow in plain language. What does the user do? What does the system do?
-Example: "User logs in, uploads a CSV, the system processes it and sends an email with the results."
--->
+## Imprescindible el primer día
 
-
-
-## Is there anything technical you already know you want?
-
-<!--
-Optional. Only fill this if you have specific technical requirements or preferences.
-Example: "It needs to work on mobile." / "Must integrate with Slack." / "I already have an API for X."
--->
-
-
-
-## What is definitely NOT part of this?
-
-<!--
-Optional but very useful. What should this never do or include?
-Example: "No subscriptions — it must be a one-time purchase." / "No cloud — everything runs locally."
--->
+- Reservar y cancelar citas en una peluquería, con Google Calendar.
+- Recordatorios de cita.
+- Aviso al dueño por Telegram.
+- Aislamiento total entre negocios: los datos de un negocio nunca son visibles para otro.

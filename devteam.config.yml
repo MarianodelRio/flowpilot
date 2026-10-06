@@ -9,9 +9,9 @@ devteam_version: "1.9.0"          # Framework version
 # PROJECT
 # ─────────────────────────────────────────
 project:
-  name: ""                        # Your project name
-  stack: ""                       # Primary language/stack. Valid values: python, typescript, go, rust, mixed.
-  type: ""                        # Project shape. Valid values: rest-api, cli, library, data-ml, frontend, mixed.
+  name: FlowPilot                 # Your project name
+  stack: python                   # Primary language/stack. Valid values: python, typescript, go, rust, mixed.
+  type: mixed                     # Project shape. Valid values: rest-api, cli, library, data-ml, frontend, mixed.
 
 # ─────────────────────────────────────────
 # MODEL CONFIGURATION
@@ -61,7 +61,7 @@ quality:
   smoke_test_mode: sandbox        # Smoke test execution mode. Valid values: sandbox, live.
   require_mutation_tests: false   # Enable mutation testing (introduces deliberate bugs to verify test quality). Valid values: true, false.
   mutation_score_threshold: 80    # Mutation test threshold (0-100). Only used if require_mutation_tests: true.
-  critical_modules: []            # Modules where mutation testing always runs regardless of require_mutation_tests. Populated by /bootstrap from design.md.
+  critical_modules: [tenancy, credentials, events]  # Modules where mutation testing always runs regardless of require_mutation_tests. Aislamiento entre negocios, secretos y entrada de mensajes.
   spec_coverage_enabled: false    # Run spec-coverage agent in parallel with reviewers. Maps spec.md Logic+Interface constraints to tests in the PR diff. Advisory only — never blocks. Valid values: true, false.
   spec_coverage_threshold: 80     # Minimum % of spec constraints covered by tests before WARN_LOW verdict. Range: 0-100. Only used when spec_coverage_enabled: true.
 
@@ -69,17 +69,19 @@ quality:
 # COMMANDS
 # ─────────────────────────────────────────
 commands:
-  test: ""          # Command to run tests. Auto-detected from project files if empty.
-  lint: ""          # Command to lint the project. Auto-detected from project files if empty.
-  type_check: ""    # Command to type-check the project. Auto-detected from project files if empty.
+  test: "uv run pytest"                              # Command to run tests. Auto-detected from project files if empty. Las herramientas se crean en la primera tarea de implementación.
+  lint: "uv run ruff check . && uv run lint-imports" # Command to lint the project. Auto-detected from project files if empty.
+  type_check: "uv run mypy src"                      # Command to type-check the project. Auto-detected from project files if empty.
   run: ""           # Command to start the project. Auto-detected from project files if empty.
 
 # ─────────────────────────────────────────
 # BATTERIES
 # ─────────────────────────────────────────
 batteries:
-  docker: true              # Generate Docker Compose + Dockerfile. Valid values: true, false.
-  ci: true                  # Generate .github/workflows/ci.yml. Valid values: true, false.
+  # Docker y CI se definen a mano en design.md §15–16 (imagen ARM, ECR, OIDC, import-linter),
+  # así que el framework no debe generarlos.
+  docker: false             # Generate Docker Compose + Dockerfile. Valid values: true, false.
+  ci: false                 # Generate .github/workflows/ci.yml. Valid values: true, false.
   env_example: true         # Generate .env.example with all required variables. Valid values: true, false.
   contributing: true        # Generate CONTRIBUTING.md and CODE_OF_CONDUCT.md. Valid values: true, false.
   security_policy: true     # Generate SECURITY.md with vulnerability reporting instructions. Valid values: true, false.

@@ -1,0 +1,22 @@
+# Secretos y entorno local
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+.coverage
+*.sqlite3
+
+# Infraestructura
+cdk.out/
+.aws/
+
+# Claves y credenciales
+*.pem
+*.key
+*credentials*.json

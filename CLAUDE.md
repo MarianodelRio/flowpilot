@@ -278,3 +278,21 @@ no automatic harness-side injection, so an agent invoked outside `/orchestrate` 
 - `context-formats.md` — relayed to orchestrator, architect, coder, and planner
 - `coder-complete.md` — relayed to the coder only
 - `review-pipeline.md` — **not relayed**; read and executed by the Orchestrator itself to run Phase 4
+
+## Reglas de FlowPilot
+
+Estas reglas son del proyecto y se aplican a todos los agentes y subagentes. Resumen de `design.md`.
+
+**Idioma (obligatorio para todos los agentes y subagentes):**
+- Responde siempre en español: resúmenes, preguntas al usuario, planes, informes de revisión, mensajes de estado y descripciones de PR. Aunque las instrucciones de un agente estén en inglés, la respuesta es en español.
+- Documentos (`README`, `docs/`, `IDEA.md`, descripciones de PR) en español. Código, identificadores, comandos y mensajes de commit en inglés.
+- Los encabezados obligatorios de `design.md` se mantienen en inglés (`## Architecture`, `## Module Contracts`, `## Testing Strategy`, `## Documentation Plan`).
+
+**Arquitectura y seguridad:**
+- Lógica de cada negocio en `packs/<nombre>/`; el núcleo (`core/`) no importa Django ni packs.
+- Todo dato de cliente lleva `tenant_id` y RLS; nunca saltarse RLS en código de aplicación.
+- Todo efecto externo es idempotente; no reintentar a ciegas un envío ambiguo.
+- Credenciales: nunca en claro, nunca en git, nunca en logs.
+- Los escenarios de conversación son obligatorios para cada pack y cada cambio de bloque.
+- Requieren aprobación humana explícita: migraciones que tocan RLS, roles o borrados; cambios en cifrado y firma de webhooks; infraestructura de prod; cualquier acción sobre datos de producción; activar canales reales de un cliente.
+- Ningún agente despliega a producción ni ejecuta comandos contra la cuenta de prod.
