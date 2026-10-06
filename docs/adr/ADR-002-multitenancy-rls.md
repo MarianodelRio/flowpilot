@@ -12,7 +12,7 @@ Muchos negocios pequeños comparten la plataforma. Un error de código que muest
 - **RLS forzada** (`ENABLE` + `FORCE`) con la política `tenant_id = NULLIF(current_setting('app.tenant_id', true), '')::uuid` (con conexiones persistentes el valor vacío es `''`, no NULL).
 - El tenant se fija **solo** con `tenant_tx(tenant_id)`: transacción corta + `SET LOCAL app.tenant_id`, nunca anidada. Sin tenant fijado no se ve ninguna fila.
 - Roles: `app_owner` (migraciones), `app_runtime` (web y worker, sin `BYPASSRLS`), `app_operator` (consola y admin, con `BYPASSRLS`).
-- Claves foráneas compuestas `(tenant_id, x_id)`; entradas HTTP y trabajos que recorren tenants resueltos con funciones `SECURITY DEFINER` mínimas (solo ids, `SET search_path = pg_catalog, public`).
+- Claves foráneas compuestas `(tenant_id, x_id)`; entradas HTTP y trabajos que recorren tenants resueltos con funciones `SECURITY DEFINER` mínimas, que devuelven solo ids, estado y lo mínimo para verificar la firma (con `SET search_path = pg_catalog, public`).
 - Test genérico de aislamiento que recorre todas las tablas con `tenant_id` y bloquea el merge.
 
 ## Alternativas consideradas

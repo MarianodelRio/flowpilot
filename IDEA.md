@@ -30,7 +30,7 @@ FlowPilot automatiza esas tareas repetitivas: atiende a los clientes por WhatsAp
 
 ## ¿Qué NO es parte de esto?
 
-- **No es un chatbot de IA de propósito general.** La IA solo interpreta peticiones dentro de los flujos de cada negocio.
+- **No es un chatbot de IA de propósito general.** La IA solo responde preguntas sobre el negocio; no decide nada.
 - **No es un software de reservas que compita con Booksy.** FlowPilot se conecta a la agenda que el negocio ya usa.
 - **No es un CRM.**
 - **No incluye facturación propia.**
